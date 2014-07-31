@@ -1,2 +1,2 @@
-selfgraphics
-============
+Self Graphics - visualisation
+================
