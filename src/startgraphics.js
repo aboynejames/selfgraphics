@@ -13,6 +13,7 @@ var selfGraphicsSpace = function() {
 	this.number = 456;
 	this.context = {};
 	this.selfSpace = document.getElementById("canvasOne");
+//console.log(this.selfSpace);		
 	this.startCanvasSpace();
 };
 
@@ -24,11 +25,11 @@ var selfGraphicsSpace = function() {
 selfGraphicsSpace.prototype.startCanvasSpace = function() {
 	
 	// the swimming pool
-console.log(this.selfSpace);	
+//console.log(this.selfSpace);	
 //	theCanvas = this.status.canvasPlace;
 //console.log(theCanvas);	
 	this.context = this.selfSpace.getContext("2d");
-
+//console.log(this.selfSpace);
 	this.context.fillStyle = '#EEEEEE';
 	this.context.fillRect(0, 0, this.selfSpace.width, this.selfSpace.height);
 	this.context.strokeStyle = '#000000';
@@ -54,22 +55,14 @@ console.log(this.selfSpace);
 var selfGraphics = function(positionSpace, selfdatain) {
 
 	this.status = selfdatain;
-console.log(this.status);	
+//console.log(this.status);	
 	this.context = positionSpace.context;
-console.log(this.context);	
+//console.log(this.context);	
 	this.realspeed = 0;
 	this.textset = [0,0,0,0,0,0,0,0,0,0];
-	this.textset1 = 0;
-	this.textset2 = 0;
-	this.textset3 = 0;	
 	this.splitscounterset = 0;
 	this.setsplits = [];
 
-/*	this. = '';
-	this. = '';
-	this. = '';
-	this. = [];*/
-	//this.startCanvas();
 	this.setGraphicsData();
 	this.setSelfdataIn();
 };
@@ -90,8 +83,6 @@ selfGraphics.prototype.setGraphicsData = function() {
 	this.lengthofpool = 25;
 	this.motiondirection = 0;
 	this.pixelspersplit = 200;
-	
-	
 	// the swimming pool lane
 	this.context.strokeStyle = '#FF0000';
 	this.context.strokeRect(this.status.lanelocation[0], this.status.lanelocation[1], this.status.lanelocation[2],this.status.lanelocation[3] ); //(50,  150, 1000, 40);
@@ -111,12 +102,11 @@ selfGraphics.prototype.setSelfdataIn = function() {
 	// incoming data splits (milliseconds)
 	this.splitsin = this.status.selftimes;// = [2540, 3040, 3310, 3150, 3590, 2270, 3190, 3310, 3090, 3680];
 	this.realspeed =  this.realspeedCalculation();
-console.log(this.realspeed);
+//console.log(this.realspeed);
 	// split distance motion direction pixel profile
 	this.motionsplitprofile = this.preparePixels();
 //console.log(this.motionsplitprofile);		
 
-	
 };
 
 
@@ -135,9 +125,6 @@ selfGraphics.prototype.setSplitmarkers = function() {
 		this.context.strokeRect((this.x + (i * this.pixelspersplit)),  this.status.lanelocation[1], 2, 40);
 		
 	};	
-	//context.strokeRect(xstart + this.pixelspersplit,  150, 2, 40);
-	//context.strokeRect(xstart + this.pixelspersplit,  150, 2, 40);
-	//context.strokeRect(xstart + this.pixelspersplit,  150, 2, 40);
 		
 };
 

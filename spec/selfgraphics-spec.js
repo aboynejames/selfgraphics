@@ -2,47 +2,43 @@ buster.spec.expose(); // Make spec functions global
 
 var spec = describe("Make swimming pool graphics simulation", function () {
     before(function () {
-	selfSpacev = {}; 
-	selfSpacev = new selfGraphicsSpace ();
-/*	
-	// feed in starting self data to SelfGraphics analysis  selfdata, canvas location
-	var selfdataGraphics = {};	
-	var selfdataGraphics2 = {};
-
-	selfdataGraphics.canvasPlace	= '';	
-	//selfdataGraphics.canvasPlace = selfposition;//document.getElementById("canvasOne");
-	selfdataGraphics.lanelocation = [50,  100, 1000, 40];
-	selfdataGraphics.selftimes = [2540, 3040, 3310, 3150, 3590, 2270, 3190, 3310, 3090, 3680];
-
-		
-	//selfdataGraphics2.canvasPlace = selfposition;		
-	selfdataGraphics2.lanelocation = [50,  300, 1000, 40];
-	selfdataGraphics2.selftimes = [2940, 3040, 3310, 3150, 3590, 2270, 3190, 3310, 3090, 4780];
-		
-	var startGraphicslive = new selfGraphics(selfSpace, selfdataGraphics);
-	var startGraphicslive2 = new selfGraphics(selfSpace, selfdataGraphics2);
-console.log(startGraphicslive);		
-
-	$("#startSwimline").click(function(e) {
-		e.preventDefault(e);
-//console.log('start the race');	
-		startGraphicslive.startSelfgraphics(startGraphicslive);
-		startGraphicslive2.startSelfgraphics(startGraphicslive2);		
-	});
-	*/
+	    
+		this.StartselfSpace = new selfGraphicsSpace();
+		this.selfdataGraphics = {};
+		this.selfdataGraphics.canvasPlace	= '';	
+		this.selfdataGraphics.lanelocation = [50,  100, 1000, 40];
+		this.selfdataGraphics.selftimes = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+	    
     });
 
-    //it("check number value input 123", function () {
-        
-      //  buster.assert.equals(123, this.testswimn);
-   // });
+   it("check object is define", function () {
 
-   it("check object setup correctly", function () {
-        
-//        buster.assert.equals(456, this.testswim.number);
+		buster.assert.defined(selfGraphics); 
+        		
     });
-	 
 
-console.log(this.testswim);	        
+   it("check object is setup", function () {
+
+		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
+		buster.assert.isObject(graphicslive);
+    });    
+ 	     
+   it("check speed calculations", function () {
+
+		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
+		var speedtest = graphicslive.realspeedCalculation();
+	   
+		buster.assert.isArray(speedtest);
+		buster.assert.equals(speedtest[0], '1000.00');
+    }); 
+
+   it("check pixel data motion direction ", function () {
+
+		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
+	   
+		buster.assert.isFunction(graphicslive.preparePixels);
+    }); 
+
+    
 });
 
