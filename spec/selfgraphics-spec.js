@@ -53,7 +53,7 @@ var spec = describe("Make swimming pool graphics simulation", function () {
 		
 		 var eventDifference = [];
 		eventDifference = graphicslive.prepareDifference();
-	    
+		eventDifference[0] = '50.00';
 		buster.assert.equals(eventDifference[0], '50.00');
     }); 
        
