@@ -39,6 +39,25 @@ var spec = describe("Make swimming pool graphics simulation", function () {
 		buster.assert.isFunction(graphicslive.preparePixels);
     }); 
 
+    it("check difference between two events ", function () {
+
+		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
+	   
+		buster.assert.isFunction(graphicslive.prepareDifference);
+		buster.assert.isFunction(graphicslive.drawDifference);
+    }); 
     
+    it("check difference between two events ", function () {
+
+		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
+		
+		 var eventDifference = [];
+		eventDifference = graphicslive.prepareDifference();
+	    
+		buster.assert.equals(eventDifference[0], '50.00');
+    }); 
+       
+    
+   
 });
 

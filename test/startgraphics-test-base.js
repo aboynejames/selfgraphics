@@ -13,7 +13,7 @@ casper.start(baseUrl, function() {
 
 
 casper.run(function() {
-this.echo(this.getHTML());
+//this.echo(this.getHTML());
   this.test.done();
 	//this.exit(); 
 });

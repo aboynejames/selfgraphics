@@ -35,6 +35,13 @@ selfGraphicsSpace.prototype.startCanvasSpace = function() {
 	this.context.strokeStyle = '#000000';
 	this.context.strokeRect(1,  1, this.selfSpace.width-2, this.selfSpace.height-2);
 	
+	// place for difference analysis
+	this.context.fillStyle = '#00ffff';
+	this.context.fillRect(1100, 50, 90, 200);
+	this.context.strokeStyle = '#000000';
+	this.context.strokeRect(1102,  52, 86, 194);
+	this.context.strokeStyle = '#FF0000';
+	this.context.strokeRect(1102, 142, 84, 2); 
 	
 };
 
@@ -152,19 +159,6 @@ selfGraphics.prototype.realspeedCalculation = function() {
 };
 
 /**
-*  start the graphics
-* @method  startSelfgraphics	
-*
-*/	
-selfGraphics.prototype.startSelfgraphics = function(liveAnalysis) {
-
-	var drawLive = function() {liveAnalysis.drawAnalysis()};
-	setInterval(drawLive, 20);
-
-};
-
-
-/**
 * keep track of split segments
 * @method setSplitsegments	
 *
@@ -184,6 +178,172 @@ selfGraphics.prototype.setSplitsegments = function(setsp) {
 //console.log(this.setsplits);
 //console.log(this.splitscounterset);	
 	
+};
+
+/**
+* prepars pixel data
+* @method preparePixels	
+*
+*/	
+selfGraphics.prototype.preparePixels = function() {
+
+		// given length of pool create pixel presention distance and motion of direction value ie 1 or -1
+		var splitspixel = {};
+		var holdingsplitsdata = [];
+		var holdingMotion = [];
+		var holdingPixelplacer = [];
+		var speedDirection = [];
+		var nosplitsin = this.splitsin.length;
+		var endoflengthpixels = nosplitevents * this.pixelspersplit;
+		var splitchangedirectionEvery = this.lengthofpool/this.distanceinterval;
+		
+//console.log('no split change direction' + splitchangedirectionEvery);	
+
+		var nosplitevents = this.distanceinterval/this.distanceinterval;
+//console.log('no split events' + nosplitevents);		
+		var nopixelsperlength = this.nosplitsin * this.pixelspersplit;
+//console.log('no pixels per length' + nopixelsperlength);		
+		var cumulativepixeldistance = 0;
+		var motiondirectionP = 0;
+		var motiondirection = 0;
+		var lastpixelPlacernumber = splitchangedirectionEvery + 1;
+//console.log(this.realspeed);		
+		var splength = this.realspeed.length;
+		var pixcelplacerDistance = 0;	
+		// create distance pixel change of speed point array ie [50,250,450,650,850,1050,850,650,450,250]   50 250 450 650 850 1050 850 650 etc....
+		  for (i=0;i< splength; i++) {
+
+			// logic for motion dirction 1 or -1
+			var divideby = i%splitchangedirectionEvery;
+
+//console.log(divideby);			
+
+			if(i == lastpixelPlacernumber)
+			{
+				motiondirectionP = -1;
+				pixcelplacerDistance = pixcelplacerDistance + (motiondirectionP *  this.pixelspersplit);
+				holdingPixelplacer.push(pixcelplacerDistance);
+
+//console.log('no 6 speical');				
+//console.log('pixel placer at' + pixcelplacerDistance);				
+			}
+			else
+			{
+				
+				// need account for 6 placement points with change of direction on 5
+				if(divideby == 0)
+				{
+					// take current direction and reverse it
+					if(motiondirectionP == 0)
+					{
+						//start pixel placement
+//console.log('start logic');
+						pixcelplacerDistance = this.x;
+						holdingPixelplacer.push(pixcelplacerDistance);
+						motiondirectionP = 1;
+//console.log('pixel placer at' + pixcelplacerDistance);						
+
+					}
+					else
+					{
+						// change the distanced from positive to negative
+						pixcelplacerDistance = pixcelplacerDistance + (motiondirectionP *  this.pixelspersplit);
+						holdingPixelplacer.push(pixcelplacerDistance);
+//console.log('other end of th poool');
+//console.log('change of direction' + pixcelplacerDistance);
+					}
+				}
+				else
+				{
+//console.log(' not start or no 6');				
+						//motiondirection = 1;
+						pixcelplacerDistance = pixcelplacerDistance + (motiondirectionP *  this.pixelspersplit);
+						holdingPixelplacer.push(pixcelplacerDistance);
+//console.log('pixel placer at' + pixcelplacerDistance);						
+				}
+				
+			}
+			
+
+		}
+//console.log('holder pixel placer');
+//console.log(holdingPixelplacer);
+		
+		// create motion of direction array ie [1,1,1,1,1,-1,-1,-1,-1,-1]
+		
+		//splitsin.forEach(function(spid) {
+		  for (i=0;i< splength; i++) {
+		  
+			// logic for motion dirction 1 or -1
+			var divideby = i%splitchangedirectionEvery;
+//console.log(divideby);			
+			if(divideby == 0)
+			{
+				// take current direction and reverse it
+				if(motiondirection == 0)
+				{
+					motiondirection = 1;
+
+				}
+				else
+				{
+					motiondirection = -1;
+					
+				}
+			}
+	
+			holdingMotion.push(motiondirection);
+		}
+//console.log('motion holder');
+//console.log(holdingMotion);
+
+			// multiple by the actual speeds
+		for (i=0;i< splength; i++) {
+		
+			speedDirection.push(holdingMotion[i] * this.realspeed[i]);	
+		
+		
+		};
+
+//console.log('speeds with direction');
+//console.log(speedDirection);		
+
+		// combine distance speed change point, speed, motion direction
+		// {[50,1,1.9], [250, 1,1.8], [450,1,1.8], [650,1,1.5], [850,1,1.8], [1050,-1,1.5], [850,-1,2.0], [650,-1,1.9], [450,-1,1.8], [250,-1,1.6]}
+		speedPixelplaces = {};
+		speedPixelplaces['pixelPlacers'] = holdingPixelplacer;
+		speedPixelplaces['speedDirection'] = speedDirection;
+		
+		return speedPixelplaces;
+
+};
+
+/**
+* prepare difference data
+* @method prepareDifference
+*
+*/	
+selfGraphics.prototype.prepareDifference = function() {
+	
+	var differenceTwo = [];
+	
+	
+	
+	return differenceTwo;
+
+	
+};
+
+/**
+*  start the graphics
+* @method  startSelfgraphics	
+*
+*/	
+selfGraphics.prototype.startSelfgraphics = function(liveAnalysis) {
+
+	var drawLive = function() {liveAnalysis.drawAnalysis()};
+	setInterval(drawLive, 20);
+
 };
 
 /**
@@ -228,6 +388,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " +this.motionsplitprofile['speedDirection'][9], this.x - 150, this.y + 50);
 						this.textset[0] = 1;
+						this.drawDifference();
 					}
 					else 
 					{}
@@ -426,140 +587,19 @@ selfGraphics.prototype.drawAnalysis = function() {
 };
 
 /**
-* prepars pixel data
-* @method preparePixels	
+*  draw difference analysis
+* @method  drawDifference	
 *
 */	
-selfGraphics.prototype.preparePixels = function() {
+selfGraphics.prototype.drawDifference = function(liveAnalysis) {
 
-
-		// given length of pool create pixel presention distance and motion of direction value ie 1 or -1
-		var splitspixel = {};
-		var holdingsplitsdata = [];
-		var holdingMotion = [];
-		var holdingPixelplacer = [];
-		var speedDirection = [];
-		var nosplitsin = this.splitsin.length;
-		var endoflengthpixels = nosplitevents * this.pixelspersplit;
-		var splitchangedirectionEvery = this.lengthofpool/this.distanceinterval;
-		
-//console.log('no split change direction' + splitchangedirectionEvery);	
-
-		var nosplitevents = this.distanceinterval/this.distanceinterval;
-//console.log('no split events' + nosplitevents);		
-		var nopixelsperlength = this.nosplitsin * this.pixelspersplit;
-//console.log('no pixels per length' + nopixelsperlength);		
-		var cumulativepixeldistance = 0;
-		var motiondirectionP = 0;
-		var motiondirection = 0;
-		var lastpixelPlacernumber = splitchangedirectionEvery + 1;
-//console.log(this.realspeed);		
-		var splength = this.realspeed.length;
-		var pixcelplacerDistance = 0;	
-		// create distance pixel change of speed point array ie [50,250,450,650,850,1050,850,650,450,250]   50 250 450 650 850 1050 850 650 etc....
-		  for (i=0;i< splength; i++) {
-
-			// logic for motion dirction 1 or -1
-			var divideby = i%splitchangedirectionEvery;
-
-//console.log(divideby);			
-
-			if(i == lastpixelPlacernumber)
-			{
-				motiondirectionP = -1;
-				pixcelplacerDistance = pixcelplacerDistance + (motiondirectionP *  this.pixelspersplit);
-				holdingPixelplacer.push(pixcelplacerDistance);
-
-//console.log('no 6 speical');				
-//console.log('pixel placer at' + pixcelplacerDistance);				
-			}
-			else
-			{
-				
-				// need account for 6 placement points with change of direction on 5
-				if(divideby == 0)
-				{
-					// take current direction and reverse it
-					if(motiondirectionP == 0)
-					{
-						//start pixel placement
-//console.log('start logic');
-						pixcelplacerDistance = this.x;
-						holdingPixelplacer.push(pixcelplacerDistance);
-						motiondirectionP = 1;
-//console.log('pixel placer at' + pixcelplacerDistance);						
-
-					}
-					else
-					{
-						// change the distanced from positive to negative
-						pixcelplacerDistance = pixcelplacerDistance + (motiondirectionP *  this.pixelspersplit);
-						holdingPixelplacer.push(pixcelplacerDistance);
-//console.log('other end of th poool');
-//console.log('change of direction' + pixcelplacerDistance);
-					}
-				}
-				else
-				{
-//console.log(' not start or no 6');				
-						//motiondirection = 1;
-						pixcelplacerDistance = pixcelplacerDistance + (motiondirectionP *  this.pixelspersplit);
-						holdingPixelplacer.push(pixcelplacerDistance);
-//console.log('pixel placer at' + pixcelplacerDistance);						
-				}
-				
-			}
-			
-
-		}
-//console.log('holder pixel placer');
-//console.log(holdingPixelplacer);
-		
-		// create motion of direction array ie [1,1,1,1,1,-1,-1,-1,-1,-1]
-		
-		//splitsin.forEach(function(spid) {
-		  for (i=0;i< splength; i++) {
-		  
-			// logic for motion dirction 1 or -1
-			var divideby = i%splitchangedirectionEvery;
-//console.log(divideby);			
-			if(divideby == 0)
-			{
-				// take current direction and reverse it
-				if(motiondirection == 0)
-				{
-					motiondirection = 1;
-
-				}
-				else
-				{
-					motiondirection = -1;
-					
-				}
-			}
+	// percentage above or below second time data inputted
+	var percentage = 0.2;
+	// need to convert to pixel area
 	
-			holdingMotion.push(motiondirection);
-		}
-//console.log('motion holder');
-//console.log(holdingMotion);
-
-			// multiple by the actual speeds
-		for (i=0;i< splength; i++) {
-		
-			speedDirection.push(holdingMotion[i] * this.realspeed[i]);	
-		
-		
-		};
-
-//console.log('speeds with direction');
-//console.log(speedDirection);		
-
-		// combine distance speed change point, speed, motion direction
-		// {[50,1,1.9], [250, 1,1.8], [450,1,1.8], [650,1,1.5], [850,1,1.8], [1050,-1,1.5], [850,-1,2.0], [650,-1,1.9], [450,-1,1.8], [250,-1,1.6]}
-		speedPixelplaces = {};
-		speedPixelplaces['pixelPlacers'] = holdingPixelplacer;
-		speedPixelplaces['speedDirection'] = speedDirection;
-		
-		return speedPixelplaces;
+	this.context.fillStyle = '#FF0000';
+	this.context.fillRect(1102, 122, 80, 22); 
+	
 
 };
+
