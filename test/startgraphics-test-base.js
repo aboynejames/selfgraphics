@@ -17,5 +17,3 @@ casper.run(function() {
   this.test.done();
 	//this.exit(); 
 });
-
-//casperjs test test/ --baseUrl=http://localhost/ll/selfgraphics/index.html --xunit=reports/test-

@@ -10,11 +10,11 @@
 * @version    $Id$
 */
 var selfGraphicsSpace = function() {
-	this.number = 456;
+
 	this.context = {};
-	this.selfSpace = document.getElementById("canvasOne");
-//console.log(this.selfSpace);		
+	this.selfSpace = document.getElementById("canvasOne");	
 	this.startCanvasSpace();
+	
 };
 
 /**
@@ -24,12 +24,9 @@ var selfGraphicsSpace = function() {
 */	
 selfGraphicsSpace.prototype.startCanvasSpace = function() {
 	
-	// the swimming pool
-//console.log(this.selfSpace);	
+	// the swimming pool	
 //	theCanvas = this.status.canvasPlace;
-//console.log(theCanvas);	
 	this.context = this.selfSpace.getContext("2d");
-//console.log(this.selfSpace);
 	this.context.fillStyle = '#EEEEEE';
 	this.context.fillRect(0, 0, this.selfSpace.width, this.selfSpace.height);
 	this.context.strokeStyle = '#000000';
@@ -59,7 +56,7 @@ selfGraphicsSpace.prototype.startCanvasSpace = function() {
 * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 * @version    $Id$
 */
-var selfGraphics = function(positionSpace, selfdatain) {
+var selfGraphics = function(positionSpace, selfdatain, comparedata) {
 
 	this.status = selfdatain;
 	this.context = positionSpace.context;
@@ -67,9 +64,10 @@ var selfGraphics = function(positionSpace, selfdatain) {
 	this.textset = [0,0,0,0,0,0,0,0,0,0];
 	this.splitscounterset = 0;
 	this.setsplits = [];
-
+	this.livecompare = comparedata;
 	this.setGraphicsData();
 	this.setSelfdataIn();
+
 };
 
 
@@ -109,7 +107,7 @@ selfGraphics.prototype.setSelfdataIn = function() {
 	this.realspeed =  this.realspeedCalculation();
 	// split distance motion direction pixel profile
 	this.motionsplitprofile = this.preparePixels();	
-
+	this.livecompare.addcompareData(this.status.selftimes);
 };
 
 
@@ -283,22 +281,6 @@ selfGraphics.prototype.preparePixels = function() {
 };
 
 /**
-* prepare difference data
-* @method prepareDifference
-*
-*/	
-selfGraphics.prototype.prepareDifference = function() {
-	
-	var differenceTwo = [];
-	
-	
-	
-	return differenceTwo;
-
-	
-};
-
-/**
 *  start the graphics
 * @method  startSelfgraphics	
 *
@@ -333,7 +315,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 			this.motiondirection = 1;
 			this.context.font = "14px Arial";
 			this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[0] ,this.x + 25, this.y - 50);
-		
+			this.livecompare.drawDifference(0);
 		}
 		else
 		{
@@ -350,7 +332,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " +this.motionsplitprofile.speedDirection[9], this.x - 150, this.y + 50);
 						this.textset[0] = 1;
-						this.drawDifference();
+						//this.livecompare.drawDifference(9);
 					}
 					else 
 					{}
@@ -365,6 +347,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " +this.motionsplitprofile.speedDirection[9], this.x - 150, this.y + 50);
 						this.textset[9] = 1;
+						this.livecompare.drawDifference(9);
 					}
 					else 
 					{}
@@ -383,6 +366,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[2], this.x + 50, this.y - 50);
 						this.textset[1] = 1;
+						this.livecompare.drawDifference(2);						
 					}
 					else 
 					{}
@@ -397,6 +381,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[8], this.x - 150, this.y + 50);
 						this.textset[8] = 1;
+						this.livecompare.drawDifference(8);
 					}
 					else 
 					{}
@@ -414,8 +399,9 @@ selfGraphics.prototype.drawAnalysis = function() {
 					this.splitcount++;
 					if(this.textset[2] === 0)
 					{
-						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[2], this.x + 50, this.y - 50);
+						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[3], this.x + 50, this.y - 50);
 						this.textset[2] = 1;
+						this.livecompare.drawDifference(3);						
 					}
 					else 
 					{}
@@ -430,6 +416,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[7], this.x - 150, this.y + 50);
 						this.textset[7] = 1;
+						this.livecompare.drawDifference(7);
 					}
 					else 
 					{}
@@ -449,6 +436,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[4], this.x + 50, this.y - 50);
 						this.textset[3] = 1;
+						this.livecompare.drawDifference(4);						
 					}
 					else 
 					{}
@@ -463,6 +451,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[6], this.x - 150, this.y + 50);
 						this.textset[6] = 1;
+						this.livecompare.drawDifference(6);
 					}
 					else 
 					{}
@@ -483,6 +472,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[4], this.x + 50, this.y - 50);
 						this.textset[4] = 1;
+						this.livecompare.drawDifference(4);
 					}
 					else 
 					{}
@@ -497,6 +487,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[5], this.x - 150, this.y + 50);
 						this.textset[5] = 1;
+						this.livecompare.drawDifference(5);
 					}
 					else 
 					{}
@@ -532,19 +523,69 @@ selfGraphics.prototype.drawAnalysis = function() {
 };
 
 /**
+* Difference data
+*
+* hold data to be compared
+* @class differenceData
+*
+* @package    Self Graphics - open sport project
+* @copyright  Copyright (c) 2014 James Littlejohn
+* @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+* @version    $Id$
+*/
+var compareData = function(canvasin) {
+
+	this.canvaslive = canvasin;
+	this.twodatalive = [];
+
+};
+
+/**
+*  keep track of order of data in comparision
+* @method  addcompareData	
+*
+*/	
+compareData.prototype.addcompareData = function(indata) { 
+	
+	this.twodatalive.push(indata);
+
+};
+
+/**
+* prepare difference data
+* @method prepareDifference
+*
+*/	
+compareData.prototype.prepareDifference = function(splitposition) {
+	
+	var differenceTwo = this.twodatalive[0][splitposition] - this.twodatalive[1][splitposition];
+	// calculate percentage time difference from the first time perspective
+	var differencePercentage = (differenceTwo/this.twodatalive[0][splitposition]);
+
+	return differencePercentage;
+
+};
+
+/**
 *  draw difference analysis
 * @method  drawDifference	
 *
 */	
-selfGraphics.prototype.drawDifference = function(liveAnalysis) {
+compareData.prototype.drawDifference = function(liveAnalysisposition) {
 
 	// percentage above or below second time data inputted
-	var percentage = 0.2;
+	var percentage = this.prepareDifference(liveAnalysisposition);
 	// need to convert to pixel area
+	var newdigitnumber = (percentage * 40);
+	var newtidydigitnumber = Math.round(newdigitnumber);
+	var newy = 122 + newtidydigitnumber;
+	var newheight = 4;
 	
-	this.context.fillStyle = '#FF0000';
-	this.context.fillRect(1102, 122, 80, 22); 
+	this.canvaslive.context.fillStyle = '#FF0000';
+	this.canvaslive.context.fillRect(1102, newy, 80, newheight); 
+	
+	// need to keep not of previous marker and remove it
+	
 	
 
 };
-

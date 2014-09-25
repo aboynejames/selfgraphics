@@ -4,14 +4,17 @@ var spec = describe("Make swimming pool graphics simulation", function () {
     before(function () {
 	    
 		this.StartselfSpace = new selfGraphicsSpace();
-		this.selfdataGraphics = {};
-		this.selfdataGraphics.canvasPlace	= '';	
+		this.comparecont = new compareData(this.StartselfSpace);
+	    
+		this.selfdataGraphics = {};	
 		this.selfdataGraphics.lanelocation = [50,  100, 1000, 40];
 		this.selfdataGraphics.selftimes = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+			
+		this.graphicslive = 	new selfGraphics(this.StartselfSpace, this.selfdataGraphics, this.comparecont);
 	    
     });
 
-   it("check object is define", function () {
+   it("check object is defined", function () {
 
 		buster.assert.defined(selfGraphics); 
         		
@@ -19,45 +22,22 @@ var spec = describe("Make swimming pool graphics simulation", function () {
 
    it("check object is setup", function () {
 
-		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
-		buster.assert.isObject(graphicslive);
+		buster.assert.isObject(this.graphicslive );
     });    
  	     
    it("check speed calculations", function () {
 
-		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
-		var speedtest = graphicslive.realspeedCalculation();
+		var speedtest = this.graphicslive .realspeedCalculation();
 	   
 		buster.assert.isArray(speedtest);
 		buster.assert.equals(speedtest[0], '1000.00');
     }); 
 
    it("check pixel data motion direction ", function () {
-
-		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
 	   
-		buster.assert.isFunction(graphicslive.preparePixels);
+		buster.assert.isFunction(this.graphicslive.preparePixels);
     }); 
 
-    it("check difference between two events ", function () {
-
-		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
-	   
-		buster.assert.isFunction(graphicslive.prepareDifference);
-		buster.assert.isFunction(graphicslive.drawDifference);
-    }); 
-    
-    it("check difference between two events ", function () {
-
-		var graphicslive = new selfGraphics(this.StartselfSpace, this.selfdataGraphics);
-		
-		 var eventDifference = [];
-		eventDifference = graphicslive.prepareDifference();
-		
-		buster.assert.equals(eventDifference[0], '50.00');
-    }); 
-       
-    
    
 });
 
