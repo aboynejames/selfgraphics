@@ -44,7 +44,7 @@ var spec = describe("set up compare data object", function () {
     
     it("check difference between two events ", function () {
 		
-		 var eventDifference = 0;
+		var eventDifference = 0;
 		eventDifference = this.comparetest.prepareDifference(0);
 		
 		buster.assert.equals(eventDifference, -0.5);

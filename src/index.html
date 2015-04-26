@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <title>Self Graphics - Open Sport Project</title>
 
+	<link rel="stylesheet" type="text/css" href="css/graphicstyle.css" media="all" />
+
 	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="startgraphics.js"></script>
+	<script type="text/javascript" src="selfSimulation.js"></script>
+
 
 	<script type="text/javascript" >
 
@@ -36,15 +40,21 @@ $(document).ready(function(){
 		startGraphicslive.startSelfgraphics(startGraphicslive);
 		startGraphicslive2.startSelfgraphics(startGraphicslive2);		
 	});
+	
+	var StartSelfSimulation = new selfSimulation();
+	
+	
 
 });
 </script>
 </head>
 <body>
-<div id="startdiv"> </div>
-<canvas id="canvasOne" class="style" width="1200" height="400"></canvas>
+	<div id="startdiv"><a href="" id="startSwimline" >Start</a> Swimmer 1 21 July 2014 V Swimmer 1 April 2 2015 Backcrawl 50m  Long course  ANALYSIS - speed</div>
+	
+	<canvas id="canvasOne" class="style" width="1200" height="400"></canvas>
 
-<a href="" id="startSwimline" >Start</a>
+	<canvas id="canvasSimulation" class="style" width="1200" height="400"></canvas>
+
 
 </body>
 
