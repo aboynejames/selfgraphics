@@ -56,7 +56,7 @@ selfGraphicsSpace.prototype.startCanvasSpace = function() {
 * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 * @version    $Id$
 */
-var selfGraphics = function(positionSpace, selfdatain, comparedata) {
+var selfGraphics = function(positionSpace, selfdatain, comparedata, bodyGraphics) {
 
 	this.status = selfdatain;
 	this.context = positionSpace.context;
@@ -67,6 +67,7 @@ var selfGraphics = function(positionSpace, selfdatain, comparedata) {
 	this.livecompare = comparedata;
 	this.setGraphicsData();
 	this.setSelfdataIn();
+	this.livebodyDraw = bodyGraphics;
 
 };
 
@@ -110,6 +111,25 @@ selfGraphics.prototype.setSelfdataIn = function() {
 	this.livecompare.addcompareData(this.status.selftimes);
 };
 
+/**
+*  extract form for any 5m segment
+* @method  extractDatasegment	
+*
+*/	
+selfGraphics.prototype.extractDatasegment = function(segmentID) {
+
+	var formSegment = {};
+	formSegment['overall'] = this.status.selfForm.overall[segmentID];
+	formSegment['head'] = this.status.selfForm.head[segmentID];
+	formSegment['body'] = this.status.selfForm.body[segmentID];
+	formSegment['leftleg'] = this.status.selfForm.leftleg[segmentID];
+	formSegment['rightleg'] = this.status.selfForm.rightleg[segmentID];
+	formSegment['leftarm'] = this.status.selfForm.leftarm[segmentID];
+	formSegment['rightarm'] = this.status.selfForm.rightarm[segmentID];
+		
+	return formSegment
+	
+};
 
 /**
 *  setup the slip markers
@@ -316,6 +336,9 @@ selfGraphics.prototype.drawAnalysis = function() {
 			this.context.font = "14px Arial";
 			this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[0] ,this.x + 25, this.y - 50);
 			this.livecompare.drawDifference(0);
+			// draw body analysis
+			liveSegment = this.extractDatasegment(0);
+			this.livebodyDraw.formConversionColor(liveSegment);
 		}
 		else
 		{
@@ -333,6 +356,9 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " +this.motionsplitprofile.speedDirection[9], this.x - 150, this.y + 50);
 						this.textset[0] = 1;
 						//this.livecompare.drawDifference(9);
+						//form form data object
+						liveSegment = this.extractDatasegment(9);
+						this.livebodyDraw.formConversionColor(liveSegment);					
 					}
 					else 
 					{}
@@ -348,6 +374,8 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " +this.motionsplitprofile.speedDirection[9], this.x - 150, this.y + 50);
 						this.textset[9] = 1;
 						this.livecompare.drawDifference(9);
+						liveSegment = this.extractDatasegment(9);
+						this.livebodyDraw.formConversionColor(liveSegment);
 					}
 					else 
 					{}
@@ -366,7 +394,9 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[2], this.x + 50, this.y - 50);
 						this.textset[1] = 1;
-						this.livecompare.drawDifference(2);						
+						this.livecompare.drawDifference(2);
+						liveSegment = this.extractDatasegment(2);
+						this.livebodyDraw.formConversionColor(liveSegment);	
 					}
 					else 
 					{}
@@ -382,6 +412,8 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[8], this.x - 150, this.y + 50);
 						this.textset[8] = 1;
 						this.livecompare.drawDifference(8);
+						liveSegment = this.extractDatasegment(8);
+						this.livebodyDraw.formConversionColor(liveSegment);
 					}
 					else 
 					{}
@@ -401,7 +433,9 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[3], this.x + 50, this.y - 50);
 						this.textset[2] = 1;
-						this.livecompare.drawDifference(3);						
+						this.livecompare.drawDifference(3);
+						liveSegment = this.extractDatasegment(3);
+						this.livebodyDraw.formConversionColor(liveSegment);						
 					}
 					else 
 					{}
@@ -417,6 +451,8 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[7], this.x - 150, this.y + 50);
 						this.textset[7] = 1;
 						this.livecompare.drawDifference(7);
+						liveSegment = this.extractDatasegment(7);
+						this.livebodyDraw.formConversionColor(liveSegment);
 					}
 					else 
 					{}
@@ -436,7 +472,9 @@ selfGraphics.prototype.drawAnalysis = function() {
 					{
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[4], this.x + 50, this.y - 50);
 						this.textset[3] = 1;
-						this.livecompare.drawDifference(4);						
+						this.livecompare.drawDifference(4);
+						liveSegment = this.extractDatasegment(4);
+						this.livebodyDraw.formConversionColor(liveSegment);						
 					}
 					else 
 					{}
@@ -452,6 +490,8 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[6], this.x - 150, this.y + 50);
 						this.textset[6] = 1;
 						this.livecompare.drawDifference(6);
+						liveSegment = this.extractDatasegment(6);
+						this.livebodyDraw.formConversionColor(liveSegment);
 					}
 					else 
 					{}
@@ -473,6 +513,7 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[4], this.x + 50, this.y - 50);
 						this.textset[4] = 1;
 						this.livecompare.drawDifference(4);
+						this.livebodyDraw.formConversionColor(this.status.selfForm.overall[4]);						
 					}
 					else 
 					{}
@@ -488,6 +529,8 @@ selfGraphics.prototype.drawAnalysis = function() {
 						this.context.strokeText("Speed: " + this.motionsplitprofile.speedDirection[5], this.x - 150, this.y + 50);
 						this.textset[5] = 1;
 						this.livecompare.drawDifference(5);
+						liveSegment = this.extractDatasegment(5);
+						this.livebodyDraw.formConversionColor(liveSegment);		
 					}
 					else 
 					{}

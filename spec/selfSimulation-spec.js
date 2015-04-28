@@ -83,5 +83,17 @@ var spec = describe("setup canvas human simulation object", function () {
 		buster.assert.isFunction(this.Simlive.formScale);
 
 	});
+
+	it("convert sensor form to color scale", function () {
+		
+		buster.assert.isFunction(this.Simlive.formConversionColor);
+
+	});
+
+	it("draw body start function", function () {
+		
+		buster.assert.isFunction(this.Simlive.drawbodyStart);
+
+	});	
 	
 });

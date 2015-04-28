@@ -37,6 +37,12 @@ var spec = describe("Make swimming pool graphics simulation", function () {
 	   
 		buster.assert.isFunction(this.graphicslive.preparePixels);
     }); 
+    
+    	it("extra form data per segment", function () {
+		
+		buster.assert.isFunction(this.graphicslive.extractDatasegment);
+
+	});
 
    
 });

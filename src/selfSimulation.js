@@ -32,14 +32,26 @@ selfSimulation.prototype.startSimulation = function() {
 	this.context.strokeStyle = '#000000';
 	this.context.strokeRect(1,  1, this.selfsimgraphic.width-2, this.selfsimgraphic.height-2);
 
-	// draw body
-	this.drawHead();
-	this.drawBody();
-	this.drawLeftleg();
-	this.drawRightleg();
-	this.drawLeftarm();
-	this.drawRightarm();
 	this.formScale();
+	this.drawbodyStart('#8ED6FF');	
+
+};
+
+/**
+* start drawing of body
+* @method drawbodyStart	
+*
+*/	
+selfSimulation.prototype.drawbodyStart = function(colorscaleIn) {
+	
+	// draw body
+	this.drawHead(colorscaleIn['overall']);
+	this.drawHead(colorscaleIn['head']);
+	this.drawBody(colorscaleIn['body']);
+	this.drawLeftleg(colorscaleIn['leftleg']);
+	this.drawRightleg(colorscaleIn['rightleg']);
+	this.drawLeftarm(colorscaleIn['leftarm']);
+	this.drawRightarm(colorscaleIn['rightarm']);
 
 };
 
@@ -48,13 +60,13 @@ selfSimulation.prototype.startSimulation = function() {
 * @method drawHead	
 *
 */	
-selfSimulation.prototype.drawHead = function() {
+selfSimulation.prototype.drawHead = function(coloractive) {
 	
 	var centerX = 190;
 	var centerY = 160;
 	var radius = 40;
 	
-	this.context.fillStyle = "#EEEEEE";
+	this.context.fillStyle = coloractive;
 	this.context.beginPath();
 	this.context.arc(centerX, centerY, radius,0,Math.PI*2,true);
 	this.context.closePath();
@@ -69,7 +81,7 @@ selfSimulation.prototype.drawHead = function() {
 * @method drawBody	
 *
 */	
-selfSimulation.prototype.drawBody = function() {
+selfSimulation.prototype.drawBody = function(coloractive) {
 
 	var centerX = 160;
 	var centerY = 160;
@@ -85,7 +97,7 @@ selfSimulation.prototype.drawBody = function() {
 	//this.context.restore();
 
 	// apply styling
-	this.context.fillStyle = '#8ED6FF';
+	this.context.fillStyle = coloractive;
 	this.context.fill();
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = 'black';
@@ -99,8 +111,8 @@ selfSimulation.prototype.drawBody = function() {
 * @method drawLeftarm	
 *
 */	
-selfSimulation.prototype.drawLeftarm = function() {
-console.log('left arm');
+selfSimulation.prototype.drawLeftarm = function(coloractive) {
+
 	var centerX =40;
 	var centerY = 1;
 	var radius = 16;
@@ -122,7 +134,7 @@ console.log('left arm');
 	//this.context.restore();
 
 	// apply styling
-	this.context.fillStyle = '#8ED6FF';
+	this.context.fillStyle = coloractive;
 	this.context.fill();
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = 'black';
@@ -136,8 +148,8 @@ console.log('left arm');
 * @method drawRightarm	
 *
 */	
-selfSimulation.prototype.drawRightarm = function() {
-console.log('right arm');
+selfSimulation.prototype.drawRightarm = function(coloractive) {
+
 	var centerX = 10;
 	var centerY = 266;
 	var radius = 16;
@@ -155,7 +167,7 @@ console.log('right arm');
 	//this.context.restore();
 
 	// apply styling
-	this.context.fillStyle = '#8ED6FF';
+	this.context.fillStyle = coloractive;
 	this.context.fill();
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = 'black';
@@ -171,8 +183,8 @@ console.log('right arm');
 * @method drawLeftleg	
 *
 */	
-selfSimulation.prototype.drawLeftleg = function() {
-console.log('being called');
+selfSimulation.prototype.drawLeftleg = function(coloractive) {
+	
 	var centerX = 80;
 	var centerY = 130;
 	var radius = 16;
@@ -189,7 +201,7 @@ console.log('being called');
 	//this.context.restore();
 
 	// apply styling
-	this.context.fillStyle = '#8ED6FF';
+	this.context.fillStyle = coloractive;
 	this.context.fill();
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = 'black';
@@ -203,8 +215,8 @@ console.log('being called');
 * @method drawRightleg	
 *
 */	
-selfSimulation.prototype.drawRightleg = function() {
-console.log('right leg');
+selfSimulation.prototype.drawRightleg = function(coloractive) {
+
 	var centerX = 80;
 	var centerY = 180;
 	var radius = 16;
@@ -219,7 +231,7 @@ console.log('right leg');
 	//this.context.restore();
 
 	// apply styling
-	this.context.fillStyle = '#8ED6FF';
+	this.context.fillStyle = coloractive;
 	this.context.fill();
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = 'black';
@@ -234,7 +246,7 @@ console.log('right leg');
 *
 */	
 selfSimulation.prototype.formScale = function() {
-console.log('form scale');
+
 	this.context.fillStyle = 'green';
 	this.context.fillRect(640, 80, 80, 160);
 	this.context.strokeStyle = 'black';
@@ -249,5 +261,48 @@ console.log('form scale');
 	this.context.fillRect(640, 160, 80, 40);
 	this.context.fillStyle = '#200000';	
 	this.context.fillRect(640, 200, 80, 40);	
+	
+};
+
+/**
+* converts sensor form to color scale
+* @method formConversionColor	
+*
+*/	
+selfSimulation.prototype.formConversionColor = function(formpercentage) {
+
+	var activescalecolor = '';
+	scaledbody = {};
+	var formscalecolors = {};
+		formscalecolors[0] = '#F00000';
+		formscalecolors[1] = '#B00000';
+		formscalecolors[2] = '#600000';
+		formscalecolors[3] = '#200000';
+
+	// per form categorisation per body part per segment
+	extrabodyparts = Object.keys(formpercentage);
+	extrabodyparts.forEach(function(bpart){	
+		
+		if(formpercentage[bpart] > 0 && formpercentage[bpart] <= 25)
+		{
+			activescalecolor = formscalecolors[0];
+		}
+		else if(formpercentage[bpart] > 25 && formpercentage[bpart] <= 50)
+		{
+			activescalecolor = formscalecolors[1];
+		}
+		else if(formpercentage[bpart] > 50 && formpercentage[bpart] <= 75)
+		{
+			activescalecolor = formscalecolors[2];
+		}
+		else if(formpercentage[bpart] > 75 && formpercentage[bpart] <= 100)
+		{
+			activescalecolor = formscalecolors[3];
+		}		
+		
+		scaledbody[bpart] = activescalecolor;
+	});
+		
+	this.drawbodyStart(scaledbody);	
 	
 };

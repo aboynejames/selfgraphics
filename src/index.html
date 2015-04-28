@@ -9,10 +9,7 @@
 	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="startgraphics.js"></script>
 	<script type="text/javascript" src="selfSimulation.js"></script>
-
-
 	<script type="text/javascript" >
-
 /**
 *  jQuery listen for clicks and interaction	
 * 
@@ -20,6 +17,8 @@
 $(document).ready(function(){
 
 	var StartselfSpace = new selfGraphicsSpace();	
+	// body draw object
+	var StartSelfSimulation = new selfSimulation();
 	// feed in starting self data to SelfGraphics analysis  selfdata, canvas location
 	var selfdataGraphics = {};	
 	var selfdataGraphics2 = {};
@@ -28,12 +27,40 @@ $(document).ready(function(){
 
 	selfdataGraphics.lanelocation = [50,  100, 1000, 40];
 	selfdataGraphics.selftimes = [2540, 3040, 3310, 3150, 3590, 2270, 3190, 3310, 3090, 3680];
+	
+	selfFormin = {};
+	selfFormin.overall = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.head = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.body = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.leftarm = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.rightarm = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.leftleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
+	selfFormin.rightleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
+	selfdataGraphics.selfForm = selfFormin;
+
 
 	selfdataGraphics2.lanelocation = [50,  300, 1000, 40];
 	selfdataGraphics2.selftimes = [2940, 3040, 3310, 3150, 3590, 2270, 3190, 3510, 3090, 4780];
-		
-	var startGraphicslive = new selfGraphics(StartselfSpace, selfdataGraphics, comparecont);
-	var startGraphicslive2 = new selfGraphics(StartselfSpace, selfdataGraphics2, comparecont);
+	
+	selfFormin = {};
+	selfFormin.overall = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.head = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.body = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.leftarm = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.rightarm = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
+	selfFormin.leftleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
+	selfFormin.rightleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
+	selfdataGraphics2.selfForm = selfFormin;
+
+	
+	var startGraphicslive = new selfGraphics(StartselfSpace, selfdataGraphics, comparecont, StartSelfSimulation);
+	var startGraphicslive2 = new selfGraphics(StartselfSpace, selfdataGraphics2, comparecont, StartSelfSimulation);
+	
+
+
+
+
+
 
 	$("#startSwimline").click(function(e) {
 		e.preventDefault(e);
@@ -41,15 +68,11 @@ $(document).ready(function(){
 		startGraphicslive2.startSelfgraphics(startGraphicslive2);		
 	});
 	
-	var StartSelfSimulation = new selfSimulation();
-	
-	
-
 });
 </script>
 </head>
 <body>
-	<div id="startdiv"><a href="" id="startSwimline" >Start</a> Swimmer 1 21 July 2014 V Swimmer 1 April 2 2015 Backcrawl 50m  Long course  ANALYSIS - speed</div>
+	<div id="startdiv"><a href="" id="startSwimline" >Start</a> Swimmer 1 21 July 2014 V Swimmer 1 April 2 2015 Backcrawl 50m  Long course  ANALYSIS - Full Race (start, turn ) speed</div>
 	
 	<canvas id="canvasOne" class="style" width="1200" height="400"></canvas>
 
