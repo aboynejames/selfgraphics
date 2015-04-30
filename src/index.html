@@ -36,8 +36,8 @@ $(document).ready(function(){
 	selfFormin.rightarm = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
 	selfFormin.leftleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
 	selfFormin.rightleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
+	selfFormin.headonHead = [40, 10, 0, -2, -3, 30, 21, 0, -3, -2];
 	selfdataGraphics.selfForm = selfFormin;
-
 
 	selfdataGraphics2.lanelocation = [50,  300, 1000, 40];
 	selfdataGraphics2.selftimes = [2940, 3040, 3310, 3150, 3590, 2270, 3190, 3510, 3090, 4780];
@@ -50,17 +50,11 @@ $(document).ready(function(){
 	selfFormin.rightarm = [10, 90, 80, 80, 76, 74, 70, 70, 49, 55];
 	selfFormin.leftleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
 	selfFormin.rightleg = [10, 90, 80, 80, 76, 49, 48, 40, 20, 12];
+	selfFormin.headonHead = [40, 10, 0, -2, -3, 30, 21, 0, -3, -2];
 	selfdataGraphics2.selfForm = selfFormin;
 
-	
 	var startGraphicslive = new selfGraphics(StartselfSpace, selfdataGraphics, comparecont, StartSelfSimulation);
 	var startGraphicslive2 = new selfGraphics(StartselfSpace, selfdataGraphics2, comparecont, StartSelfSimulation);
-	
-
-
-
-
-
 
 	$("#startSwimline").click(function(e) {
 		e.preventDefault(e);
@@ -68,15 +62,37 @@ $(document).ready(function(){
 		startGraphicslive2.startSelfgraphics(startGraphicslive2);		
 	});
 	
+	$("#video-mode").click(function(e) {
+		e.preventDefault(e);
+		window.open("http://localhost/ll/videosensor/videosensor.html", "_self");
+	});	
 });
 </script>
 </head>
 <body>
-	<div id="startdiv"><a href="" id="startSwimline" >Start</a> Swimmer 1 21 July 2014 V Swimmer 1 April 2 2015 Backcrawl 50m  Long course  ANALYSIS - Full Race (start, turn ) speed</div>
+	<section id="graphics-context">
+		<header>
+		 <b>Swimming</b>
+		 <select id="thelaneoptions" class="selectswimmer" >'
+			<option value="-1" selected >Swimmer 1 22 August 2014</option>
+			<option value="1">Swimmer 1 Training Average</option>
+		</select>
+		V
+		<select id="thelaneoptions" class="selectswimmer" >'
+			<option value="-1" selected >Swimmer 1 23 August 2014</option>
+			<option value="1">Word Record Holder</option>
+		</select>
+		<div id="swim-context">Backcrawl 50m  Short course </div>
+		<div id="analysis-selection">ANALYSIS  Full Race - speed</div>
+		</header>
+	</section>
+	<div id="startdiv">
+		<a href="" id="startSwimline" >Start analysis</a> <a href="" id="restart-analysis" >Reset</a> <div id="stop-watch"><b>00:00:00</b></div> <a href="" id="video-mode" >Video</a> <a href="" id="future-simulation" >Future Simulation</a>
+	</div>
 	
 	<canvas id="canvasOne" class="style" width="1200" height="400"></canvas>
 
-	<canvas id="canvasSimulation" class="style" width="1200" height="400"></canvas>
+	<canvas id="canvasSimulation" class="style" width="1200" height="300"></canvas>
 
 
 </body>

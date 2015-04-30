@@ -33,6 +33,9 @@ selfSimulation.prototype.startSimulation = function() {
 	this.context.strokeRect(1,  1, this.selfsimgraphic.width-2, this.selfsimgraphic.height-2);
 
 	this.formScale();
+	this.drawHeadonpool();
+	//this.drawHeadonswimmer();
+	
 	this.drawbodyStart('#8ED6FF');	
 
 };
@@ -240,13 +243,62 @@ selfSimulation.prototype.drawRightleg = function(coloractive) {
 	
 };
 
+
+/**
+* draw headon Swimming Pool view
+* @method drawHeadonpool	
+*
+*/	
+selfSimulation.prototype.drawHeadonpool = function() {
+
+	this.context.fillStyle = '#BBD9EE';
+	this.context.fillRect(780, 140, 380, 100);
+	this.context.strokeStyle = 'black';
+	this.context.strokeRect(780,  80, 382, 160);
+	
+};
+
+/**
+* draw headon swimmer
+* @method drawHeadonswimmer	
+*
+*/	
+selfSimulation.prototype.drawHeadonswimmer = function(updownchange) {
+
+	// need to remove previous head position
+	
+	var centerX = 972;
+	var centerY = 140 + updownchange;
+	var radius = 40;
+	
+	this.context.fillStyle = 'blue';
+	this.context.lineWidth = 1;
+	this.context.strokeStyle = 'white';
+	this.context.beginPath();
+	this.context.arc(centerX, centerY, radius,0,Math.PI*2,true);
+	this.context.closePath();
+	this.context.fill();
+	this.context.stroke();	
+	
+};
+
+
+
 /**
 * draw Form scale box
 * @method formScale	
 *
 */	
 selfSimulation.prototype.formScale = function() {
+	
+	// scale text
+	this.context.font = '14pt Calibri';
+	this.context.strokeText("Loss of form", 630, 50);
 
+	this.context.font = '10pt Calibri';
+	this.context.strokeText("100%", 730, 100);
+	this.context.strokeText("25%", 730, 225);
+	
 	this.context.fillStyle = 'green';
 	this.context.fillRect(640, 80, 80, 160);
 	this.context.strokeStyle = 'black';

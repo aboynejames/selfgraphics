@@ -96,4 +96,16 @@ var spec = describe("setup canvas human simulation object", function () {
 
 	});	
 	
+	it("draw head on swimmng pool", function () {
+		
+		buster.assert.isFunction(this.Simlive.drawHeadonpool);
+
+	});		
+	
+	it("draw head on swimmer", function () {
+		
+		buster.assert.isFunction(this.Simlive.drawHeadonswimmer);
+
+	});		
+	
 });
